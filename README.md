@@ -12,12 +12,12 @@ You don’t adopt the whole thing. Each section has skip/need conditions so you 
 
 You only need `vibe-spec.md` — it’s a single file. Pick whichever method works for you:
 
-| Method | Steps |
-|--------|-------|
-| **Download the file** | Open [`vibe-spec.md`](vibe-spec.md) on GitHub → click the **Download raw file** button (top-right) |
-| **Copy-paste** | Open [`vibe-spec.md`](vibe-spec.md) → click **Raw** → select all → paste into a new file on your computer |
-| **Download ZIP** | Green **Code** button on the repo page → **Download ZIP** → unzip |
-| **Git clone** | `git clone https://github.com/Connorrmcd6/vibe-spec.git` (requires git) |
+| Method                | Steps                                                                                                     |
+| --------------------- | --------------------------------------------------------------------------------------------------------- |
+| **Download the file** | Open [`vibe-spec.md`](vibe-spec.md) on GitHub → click the **Download raw file** button (top-right)        |
+| **Copy-paste**        | Open [`vibe-spec.md`](vibe-spec.md) → click **Raw** → select all → paste into a new file on your computer |
+| **Download ZIP**      | Green **Code** button on the repo page → **Download ZIP** → unzip                                         |
+| **Git clone**         | `git clone https://github.com/Connorrmcd6/vibe-spec.git` (requires git)                                   |
 
 Once you have the file, give it to your AI tool alongside your project spec.
 
@@ -44,7 +44,7 @@ The V1 spec becomes your single source of truth — it details exactly what tool
 
 Ask the AI to break the V1 spec into sequential, self-contained phases. Append a phase index to the end of the V1 spec — this becomes your **V2 spec** (final version, discard V0 and V1). Store phase files in `docs/plans/`. At this stage phases are **outlined only** — names and scope boundaries, not full plans.
 
-Each phase doc doubles as a plan *and* an architecture reference. You can hand a single phase file to a fresh session and it has everything it needs.
+Each phase doc doubles as a plan _and_ an architecture reference. You can hand a single phase file to a fresh session and it has everything it needs.
 
 #### Step 4: Generate Phase Plans
 
@@ -54,73 +54,50 @@ Generate a high-level markdown file for each phase. Each file opens with a heade
 
 Go through phases in order. For each phase:
 
-1. **New session** — start fresh to avoid context bloat
-2. **Add context** — attach the V2 spec and ask the AI to promote the phase doc to detailed
-3. **Implement** — execute the detailed plan
-4. **Update docs** — if anything drifted (bottlenecks, design changes, skipped features), update the phase doc so it reflects reality. Update dependent phase docs if needed
-5. **Repeat** — move to the next phase with a new session
-
-### The AGENTS.md Hierarchy
-
-The repo is the system of record. An AI agent should be able to read `CLAUDE.md` and navigate to everything it needs.
-
-```
-CLAUDE.md                      ← Entry point (1 line: "See @AGENTS.md")
-├── AGENTS.md                  ← Root hub: stack, directory map, conventions (~60-100 lines)
-├── prisma/AGENTS.md           ← Schema conventions, migration checklist
-├── src/lib/AGENTS.md          ← Library modules and import paths
-├── src/app/api/AGENTS.md      ← Route groups, auth methods
-└── src/components/AGENTS.md   ← UI stack, component patterns
-```
-
-- **Root `AGENTS.md`** is a map, not a manual — stack table, invariants, links to sub-files, testing commands
-- **Sub-AGENTS.md files** provide domain-specific context that agents pick up automatically when working in that directory
-- **Reference docs** (`src/lib/references/`) contain deep-dive checklists for complex topics (auth flows, RBAC, adding pages/endpoints)
-
-### Tool Permissions
-
-Whitelist safe commands in `.claude/settings.local.json` so the AI can run lint, test, typecheck, and git without prompting. Dangerous commands (rm, drop, force-push) stay unlisted — the AI must ask permission.
-
-The full methodology with examples is in Section 1 of the guide.
+1. **New session** — Start fresh to avoid context bloat
+2. **Promote to detailed** — Attach the full spec and the target phase doc, then use planning mode to expand it to detailed. Don't just change the detail-level header — fill in the substance. This mirrors the V0 → V1 process but scoped to a single phase. If decisions here affect later phases (e.g., choosing Apple OAuth means adding env vars to the deployment phase), update those docs too.
+3. **Implement** — Execute the detailed plan. If you hit bottlenecks, blockers, or direction changes, document what changed and why in the relevant phase docs.
+4. **Update docs (critical)** — This is the most important step. The spec is the single source of truth — every future session builds on it, not on your memory of what happened. Reconcile the phase doc with what was actually built. If anything drifted — skipped features, design changes, workarounds — update the doc so it reflects reality. Cascade changes to dependent phase docs. A stale spec is worse than no spec; it actively misleads future sessions.
+5. **Repeat** — Open a new session and move to the next phase.
 
 ## What’s Covered
 
-|Section                |What It Covers                                             |
-|-----------------------|-----------------------------------------------------------|
-|AI-Assisted Development|Spec-driven workflow, AGENTS.md hierarchy, tool permissions|
-|Project Scaffolding    |Next.js 16, TypeScript, pnpm, Tailwind v4, ESLint          |
-|Docker                 |Local Postgres via docker-compose                          |
-|Database Architecture  |Prisma singleton, dual-client pattern for raw SQL          |
-|Prisma ORM             |Schema conventions, migrations, config                     |
-|dbt Transforms         |Raw → staging → marts pipeline with uv                     |
-|Authentication         |OAuth (Auth.js) or OTP + JWT (jose)                        |
-|RBAC                   |Roles, permissions, server/client enforcement              |
-|Validation             |Zod v4 patterns and gotchas                                |
-|Testing                |Vitest with mocked Prisma, coverage config                 |
-|UI Framework           |shadcn/ui, theming, component patterns                     |
-|S3 Media Uploads       |Presigned URLs, lifecycle tags, CSP                        |
-|Push Notifications     |Web Push API, VAPID, service workers                       |
-|CI/CD                  |GitHub Actions, pipeline gates                             |
-|Pre-commit Hooks       |Native git hooks, no Husky                                 |
-|Deployment             |Vercel, Neon, security headers                             |
-|Scripts & CLI Tools    |tsx-based operational tooling                              |
+| Section                 | What It Covers                                              |
+| ----------------------- | ----------------------------------------------------------- |
+| AI-Assisted Development | Spec-driven workflow, AGENTS.md hierarchy, tool permissions |
+| Project Scaffolding     | Next.js 16, TypeScript, pnpm, Tailwind v4, ESLint           |
+| Docker                  | Local Postgres via docker-compose                           |
+| Database Architecture   | Prisma singleton, dual-client pattern for raw SQL           |
+| Prisma ORM              | Schema conventions, migrations, config                      |
+| dbt Transforms          | Raw → staging → marts pipeline with uv                      |
+| Authentication          | OAuth (Auth.js) or OTP + JWT (jose)                         |
+| RBAC                    | Roles, permissions, server/client enforcement               |
+| Validation              | Zod v4 patterns and gotchas                                 |
+| Testing                 | Vitest with mocked Prisma, coverage config                  |
+| UI Framework            | shadcn/ui, theming, component patterns                      |
+| S3 Media Uploads        | Presigned URLs, lifecycle tags, CSP                         |
+| Push Notifications      | Web Push API, VAPID, service workers                        |
+| CI/CD                   | GitHub Actions, pipeline gates                              |
+| Pre-commit Hooks        | Native git hooks, no Husky                                  |
+| Deployment              | Vercel, Neon, security headers                              |
+| Scripts & CLI Tools     | tsx-based operational tooling                               |
 
 ## Quick Start by Project Type
 
-|Project Type   |Sections to Use                                                             |
-|---------------|----------------------------------------------------------------------------|
-|Static site    |Scaffolding, UI, Deployment                                                 |
-|Simple CRUD app|Scaffolding, Docker, Prisma, Auth, RBAC, Testing, UI, CI, Deployment        |
-|API backend    |Scaffolding, Docker, Prisma, Auth, RBAC, Validation, Testing, CI, Deployment|
-|Data-heavy app |All sections                                                                |
+| Project Type    | Sections to Use                                                              |
+| --------------- | ---------------------------------------------------------------------------- |
+| Static site     | Scaffolding, UI, Deployment                                                  |
+| Simple CRUD app | Scaffolding, Docker, Prisma, Auth, RBAC, Testing, UI, CI, Deployment         |
+| API backend     | Scaffolding, Docker, Prisma, Auth, RBAC, Validation, Testing, CI, Deployment |
+| Data-heavy app  | All sections                                                                 |
 
 ## Projects Built with Vibe-Spec
 
-| Project | Description | Sections Used |
-|---------|-------------|---------------|
-| [OffsideFPL.com](https://offsidefpl.com) | Fantasy Premier League social app with data pipelines, real-time dashboards, and game mechanics | All sections |
-| [caps.audittoolbar.com](https://caps.audittoolbar.com) | License management CRUD app with OTP auth, RBAC, and external API | Scaffolding, Docker, Prisma, Auth, RBAC, Validation, Testing, UI, CI/CD, Pre-commit Hooks, Deployment, Scripts |
-| [appventure.tech](https://appventure.tech) | Static marketing site | Scaffolding, UI, Deployment |
+| Project                                      | Description                                                                                     | Sections Used                                                                                                  |
+| -------------------------------------------- | ----------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| [OffsideFPL.com](https://offsidefpl.com)     | Fantasy Premier League social app with data pipelines, real-time dashboards, and game mechanics | All sections                                                                                                   |
+| [CAPS](https://atb-caps.vercel.app/)         | License management CRUD app with OTP auth, RBAC, and external API                               | Scaffolding, Docker, Prisma, Auth, RBAC, Validation, Testing, UI, CI/CD, Pre-commit Hooks, Deployment, Scripts |
+| [Appventure](https://appventure.vercel.app/) | Static marketing site                                                                           | Scaffolding, UI, Deployment                                                                                    |
 
 Built something with Vibe-Spec? [Open a PR](../../pulls) adding your project to the table.
 
