@@ -66,6 +66,7 @@ Go through phases in order. For each phase:
 | ----------------------- | ----------------------------------------------------------- |
 | AI-Assisted Development | Spec-driven workflow, AGENTS.md hierarchy, tool permissions |
 | Project Scaffolding     | Next.js 16, TypeScript, pnpm, Tailwind v4, ESLint           |
+| High-Performance APIs   | NestJS in a decoupled monorepo — when Next.js routes aren't enough |
 | Docker                  | Local Postgres via docker-compose                           |
 | Database Architecture   | Prisma singleton, dual-client pattern for raw SQL           |
 | Prisma ORM              | Schema conventions, migrations, config                      |
@@ -88,7 +89,7 @@ Go through phases in order. For each phase:
 | --------------- | ---------------------------------------------------------------------------- |
 | Static site     | Scaffolding, UI, Deployment                                                  |
 | Simple CRUD app | Scaffolding, Docker, Prisma, Auth, RBAC, Testing, UI, CI, Deployment         |
-| API backend     | Scaffolding, Docker, Prisma, Auth, RBAC, Validation, Testing, CI, Deployment |
+| API backend     | Scaffolding, Docker, Prisma, Auth, RBAC, Validation, Testing, CI, Deployment (+ NestJS decoupled monorepo for extremely performant APIs) |
 | Data-heavy app  | All sections                                                                 |
 
 ## Projects Built with Vibe-Spec

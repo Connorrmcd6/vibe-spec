@@ -17,10 +17,10 @@ Each section is self-contained with:
 
 | Project Type                           | Recommended Sections                                                                                         |
 | -------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| Static site / marketing page           | 1 (AI Dev), 2 (Scaffolding), 10 (UI), 14 (Hooks)                                                             |
-| Simple CRUD app                        | 1–5 (AI Dev through Prisma), 7 (Auth), 8 (RBAC), 9 (Testing), 10 (UI), 13–16 (CI through Deployment)         |
-| API-only backend                       | 1–5 (AI Dev through Prisma), 7 (Auth), 8 (RBAC), 9 (Validation), 10 (Testing), 13–15 (CI through Deployment) |
-| Data-heavy app (pipelines, transforms) | All sections                                                                                                 |
+| Static site / marketing page           | 1 (AI Dev), 2 (Scaffolding), 12 (UI), 16 (Hooks)                                                                                                       |
+| Simple CRUD app                        | 1–2, 4–6 (AI Dev, Scaffolding, Docker through Prisma), 8 (Auth), 9 (RBAC), 11 (Testing), 12 (UI), 15–17 (CI through Deployment)                         |
+| API-only backend                       | 1–2, 4–6 (AI Dev, Scaffolding, Docker through Prisma), 3 (NestJS — optional, for high-performance APIs), 8 (Auth), 9 (RBAC), 10 (Validation), 11 (Testing), 15–17 (CI through Deployment) |
+| Data-heavy app (pipelines, transforms) | All sections                                                                                                                                           |
 
 ---
 
@@ -28,21 +28,22 @@ Each section is self-contained with:
 
 1. [AI-Assisted Development (Spec-Driven Workflow)](#1-ai-assisted-development-spec-driven-workflow)
 2. [Project Scaffolding](#2-project-scaffolding)
-3. [Docker for Local Development](#3-docker-for-local-development)
-4. [Database Architecture](#4-database-architecture)
-5. [Prisma ORM](#5-prisma-orm)
-6. [dbt Transforms](#6-dbt-transforms)
-7. [Authentication](#7-authentication)
-8. [Role-Based Access Control (RBAC)](#8-role-based-access-control-rbac)
-9. [Validation (Zod)](#9-validation-zod)
-10. [Testing (Vitest)](#10-testing-vitest)
-11. [UI Framework (shadcn/ui)](#11-ui-framework-shadcnui)
-12. [S3 Media Uploads](#12-s3-media-uploads)
-13. [Push Notifications](#13-push-notifications)
-14. [CI/CD (GitHub Actions)](#14-cicd-github-actions)
-15. [Pre-commit Hooks](#15-pre-commit-hooks)
-16. [Deployment](#16-deployment)
-17. [Scripts & CLI Tools](#17-scripts--cli-tools)
+3. [High-Performance APIs (NestJS)](#3-high-performance-apis-nestjs)
+4. [Docker for Local Development](#4-docker-for-local-development)
+5. [Database Architecture](#5-database-architecture)
+6. [Prisma ORM](#6-prisma-orm)
+7. [dbt Transforms](#7-dbt-transforms)
+8. [Authentication](#8-authentication)
+9. [Role-Based Access Control (RBAC)](#9-role-based-access-control-rbac)
+10. [Validation (Zod)](#10-validation-zod)
+11. [Testing (Vitest)](#11-testing-vitest)
+12. [UI Framework (shadcn/ui)](#12-ui-framework-shadcnui)
+13. [S3 Media Uploads](#13-s3-media-uploads)
+14. [Push Notifications](#14-push-notifications)
+15. [CI/CD (GitHub Actions)](#15-cicd-github-actions)
+16. [Pre-commit Hooks](#16-pre-commit-hooks)
+17. [Deployment](#17-deployment)
+18. [Scripts & CLI Tools](#18-scripts--cli-tools)
 
 ---
 
@@ -299,7 +300,7 @@ Next.js 16 App Router with TypeScript strict mode, pnpm package management, Tail
 }
 ```
 
-> **Note:** The `build` script includes `prisma generate && prisma migrate deploy` before `next build`. Remove these if you don’t use Prisma. The `prepare` script sets up git hooks — see [Section 15](#15-pre-commit-hooks).
+> **Note:** The `build` script includes `prisma generate && prisma migrate deploy` before `next build`. Remove these if you don’t use Prisma. The `prepare` script sets up git hooks — see [Section 16](#16-pre-commit-hooks).
 
 **tsconfig.json** — Strict TypeScript with path aliases:
 
@@ -389,7 +390,54 @@ onlyBuiltDependencies:
 
 ---
 
-## 3. Docker for Local Development
+## 3. High-Performance APIs (NestJS)
+
+> **Skip this if:** you’re building an MVP, a small app, or a typical monorepo — Next.js Route Handlers and Server Actions cover your API needs. This is the right default for almost everything, and for initial versions Next.js is almost always enough.
+> **You need this if:** you’ve hit a **specific, measured** limit — sustained high-throughput endpoints, long-lived connections (WebSockets / SSE / streaming), heavy background or queue processing, CPU-bound work, or you need a backend whose lifecycle is independent of the frontend’s serverless deploy model.
+
+### Purpose
+
+Next.js API routes are serverless functions: stateless, with cold starts, execution-time limits, and request body-size limits (the 4.5 MB Vercel limit noted in the [S3 section](#13-s3-media-uploads)). That model is great for the vast majority of apps. But when an API has to be **extremely performant or long-running**, a dedicated **long-running NestJS server** (using the Fastify adapter) is a better fit.
+
+The default for this stack stays the same — **Next.js for the frontend, plus its own API routes**. NestJS is an escape hatch, not a starting point. It’s overkill for early versions: the decoupled split adds real operational overhead (two deploy targets, CORS, shared-package versioning), so only reach for it when a concrete need appears.
+
+### Decoupled Monorepo Structure
+
+When you do split the backend out, keep both apps in one repo and share the cross-cutting code through packages:
+
+```
+my-app/
+├── apps/
+│   ├── web/          → Next.js (frontend + light API routes)   → Vercel
+│   └── api/          → NestJS (high-performance backend)         → container host
+├── packages/
+│   ├── db/           → shared Prisma schema + client singleton
+│   ├── validation/   → shared Zod schemas / DTOs
+│   └── types/        → shared TypeScript types
+├── pnpm-workspace.yaml
+└── turbo.json        (optional — Turborepo for task orchestration)
+```
+
+The frontend can still own light BFF-style endpoints; NestJS owns the heavy, performance-critical surface.
+
+### How It Relates to the Rest of This Guide
+
+- **Scaffolding ([Section 2](#2-project-scaffolding)):** still pnpm + strict TypeScript, now a workspace with multiple `apps/*`.
+- **Database & Prisma ([Sections 5](#5-database-architecture)–[6](#6-prisma-orm)):** the Prisma client moves into `packages/db`, shared by both apps — one source of truth, never duplicated.
+- **Validation ([Section 10](#10-validation-zod)):** Zod schemas live in `packages/validation`; NestJS validates request bodies against the same schemas the frontend uses.
+- **Auth ([Section 8](#8-authentication)) & RBAC ([Section 9](#9-role-based-access-control-rbac)):** NestJS verifies the same JWT/session and enforces roles via **Guards** — the server-side equivalent of `proxy.ts` plus API-route checks.
+- **Testing ([Section 11](#11-testing-vitest)):** NestJS uses Vitest too — same runner, same conventions.
+- **Deployment ([Section 17](#17-deployment)):** `web` deploys to Vercel; `api` deploys to a long-running container host (Railway / Fly.io / Render / AWS ECS), not Vercel serverless. This requires CORS configuration and a shared auth secret across the two origins.
+
+### Gotchas & Conventions
+
+- **Use the Fastify adapter**, not the default Express adapter, for maximum throughput.
+- **Don’t reach for this prematurely.** Two deploy targets, CORS, and shared-package versioning are real costs. Next.js route handlers serve the large majority of apps — split only when you’ve measured a need.
+- **Keep one source of truth** for the DB schema and validation via `packages/*`; never fork them between the two apps.
+
+---
+
+## 4. Docker for Local Development
 
 > **Skip this if:** you’re building a static site, or you use a hosted DB (like Neon or Supabase) for development
 > **You need this if:** your app has a database and you want an isolated local environment
@@ -453,7 +501,7 @@ volumes:
 
 ---
 
-## 4. Database Architecture
+## 5. Database Architecture
 
 > **Skip this if:** your app has no database, or you only need a simple ORM layer
 > **You need this if:** you have both an ORM (structured data) and raw SQL needs (JSONB landing zones, analytical queries)
@@ -527,7 +575,7 @@ if (process.env.NODE_ENV !== "production") globalForPool.rawPool = rawPool;
 
 ---
 
-## 5. Prisma ORM
+## 6. Prisma ORM
 
 > **Skip this if:** your app has no database (static site, serverless functions with KV store, etc.)
 > **You need this if:** your app stores structured, relational data
@@ -602,7 +650,7 @@ model TeamMember {
 
 ---
 
-## 6. dbt Transforms
+## 7. dbt Transforms
 
 > **Skip this if:** your app doesn’t have a data pipeline, analytics layer, or JSONB data that needs transformation
 > **You need this if:** you ingest raw data (APIs, webhooks, etc.) and need to transform it into queryable tables
@@ -718,7 +766,7 @@ Always run dbt commands from the `dbt/` directory with `uv run dbt ...`.
 
 ---
 
-## 7. Authentication
+## 8. Authentication
 
 > **Skip this if:** your app has no user accounts (static sites, public APIs, internal tools with network-level auth)
 > **You need this if:** your app needs user sign-in, session management, or protected routes
@@ -832,7 +880,7 @@ AUTH_URL=http://localhost:3000
 
 ### Option B: OTP + JWT (jose)
 
-This approach uses email-based one-time passwords with custom JWT sessions via the `jose` library. It gives you full control over the auth flow and integrates naturally with RBAC (see [Section 8](#8-role-based-access-control-rbac)).
+This approach uses email-based one-time passwords with custom JWT sessions via the `jose` library. It gives you full control over the auth flow and integrates naturally with RBAC (see [Section 9](#9-role-based-access-control-rbac)).
 
 #### Key Files
 
@@ -903,7 +951,7 @@ NEXT_PUBLIC_ENABLE_MOCK_AUTH=true   # Skip OTP in dev
 
 ---
 
-## 8. Role-Based Access Control (RBAC)
+## 9. Role-Based Access Control (RBAC)
 
 > **Skip this if:** your app has no concept of user roles or permissions (all users see the same thing)
 > **You need this if:** different users should see different pages, perform different actions, or access different API endpoints based on their role
@@ -1051,7 +1099,7 @@ const { can, isAdmin } = useRbac();
 
 ---
 
-## 9. Validation (Zod)
+## 10. Validation (Zod)
 
 > **Skip this if:** your app doesn’t consume external APIs or accept complex user input
 > **You need this if:** you consume external APIs, process webhooks, or need runtime type validation
@@ -1097,7 +1145,7 @@ type Product = z.infer<typeof ProductSchema>;
 
 ---
 
-## 10. Testing (Vitest)
+## 11. Testing (Vitest)
 
 > **Skip this if:** never (testing is not optional)
 > **You need this if:** always
@@ -1206,7 +1254,7 @@ vi.mock("@/lib/db/client", () => {
 
 ---
 
-## 11. UI Framework (shadcn/ui)
+## 12. UI Framework (shadcn/ui)
 
 > **Skip this if:** you’re building a headless API or using a different UI library
 > **You need this if:** you’re building a web UI and want high-quality, customizable components
@@ -1270,7 +1318,7 @@ The CLI reads `components.json` and generates the output into `src/components/ui
 
 ---
 
-## 12. S3 Media Uploads
+## 13. S3 Media Uploads
 
 > **Skip this if:** your app doesn’t accept user-uploaded files, or file sizes are small enough to handle through standard form uploads
 > **You need this if:** users upload files larger than ~4MB and you need secure, scalable file storage
@@ -1391,7 +1439,7 @@ S3_SECRET_ACCESS_KEY=
 
 ---
 
-## 13. Push Notifications
+## 14. Push Notifications
 
 > **Skip this if:** your app doesn’t need real-time user notifications
 > **You need this if:** you need to alert users about events when they’re not actively using the app
@@ -1438,7 +1486,7 @@ NEXT_PUBLIC_VAPID_PUBLIC_KEY=   # Same as VAPID_PUBLIC_KEY (exposed to client)
 
 ---
 
-## 14. CI/CD (GitHub Actions)
+## 15. CI/CD (GitHub Actions)
 
 > **Skip this if:** you’re the only developer and don’t deploy to production
 > **You need this if:** you have a team, deploy to production, want automated quality gates, or need to run scheduled pipelines (e.g., dbt transforms). Use gates to determine when a pipeline should run to save unnecessary Actions minutes and cost.
@@ -1543,7 +1591,7 @@ jobs:
 
 ---
 
-## 15. Pre-commit Hooks
+## 16. Pre-commit Hooks
 
 > **Skip this if:** you’re comfortable relying solely on CI for quality checks
 > **You need this if:** you want to catch issues before they ever get pushed
@@ -1606,7 +1654,7 @@ chmod +x .githooks/pre-commit
 
 ---
 
-## 16. Deployment
+## 17. Deployment
 
 > **Skip this if:** you’re only running locally
 > **You need this if:** you’re deploying to production
@@ -1725,10 +1773,11 @@ S3_SECRET_ACCESS_KEY=
 - **`'unsafe-eval'` in dev only** — needed for Next.js hot reload. Never in production.
 - **`devIndicators: false`** suppresses the Next.js dev mode badge.
 - **Neon Postgres** is the production database (serverless Postgres). The Prisma client uses `@prisma/adapter-pg` for connection.
+- **Decoupled NestJS backend** (see [Section 3](#3-high-performance-apis-nestjs)) does **not** deploy to Vercel — it’s a long-running server that belongs on a container host (Railway / Fly.io / Render / AWS ECS). When you split the backend out, the frontend still deploys to Vercel, and the two origins need CORS configuration plus a shared auth secret.
 
 ---
 
-## 17. Scripts & CLI Tools
+## 18. Scripts & CLI Tools
 
 > **Skip this if:** your app has no data pipeline, seeding, or operational needs beyond `dev` and `build`
 > **You need this if:** you need CLI tools for data ingestion, testing setup, or operational tasks
@@ -1772,17 +1821,17 @@ TypeScript CLI tools for bespoke operations unique to your project — pipeline 
 2. **Scaffold** — Set up Next.js, TypeScript, pnpm, Tailwind, ESLint ([Section 2](#2-project-scaffolding)). Use official CLI init commands.
 3. **Add what you need** — Reference the quick reference table at the top to decide which sections apply
 4. **Set up AGENTS.md** — Even if you’re not using AI tools, convention docs help any developer onboard faster ([Section 1](#1-ai-assisted-development-spec-driven-workflow))
-5. **Set up CI early** — Lint + typecheck + test on every PR catches issues before they compound ([Section 14](#14-cicd-github-actions))
+5. **Set up CI early** — Lint + typecheck + test on every PR catches issues before they compound ([Section 15](#15-cicd-github-actions))
 6. **Break work into phases** — Each phase should have clear entry/exit criteria and be completable in 1-3 sessions
 
 ### What to Skip for Common Project Types
 
-**Static marketing site:** You need Section 2 (scaffolding), Section 11 (UI), and maybe Section 16 (deployment). Skip everything else — no database, no auth, no pipeline, no S3.
+**Static marketing site:** You need Section 2 (scaffolding), Section 12 (UI), and maybe Section 17 (deployment). Skip everything else — no database, no auth, no pipeline, no S3.
 
-**Simple SaaS app:** Add Sections 3-5 (database), Section 7 (auth), Section 8 (RBAC), Section 10 (testing). Skip dbt, S3, and push notifications unless your specific features need them.
+**Simple SaaS app:** Add Sections 4-6 (database), Section 8 (auth), Section 9 (RBAC), Section 11 (testing). Skip dbt, S3, and push notifications unless your specific features need them.
 
 **Data platform / analytics app:** You likely need everything. The dbt + dual-client + pipeline pattern was designed for exactly this use case.
 
-**API backend:** Skip Section 11 (UI) and Section 13 (push notifications). Focus on Sections 2-5, 7-10, and 14-16.
+**API backend:** Skip Section 12 (UI) and Section 14 (push notifications). Focus on Sections 2, 4-6, 8-11, and 15-17 — and reach for Section 3 (NestJS) only when the API must be extremely performant.
 
 The key principle: **every tool in this doc exists because a real project needed it**. Your project has different needs. Start minimal, add complexity only when a specific feature demands it.
