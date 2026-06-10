@@ -25,10 +25,12 @@ doesn't need Prisma or Docker; a simple CRUD app doesn't need S3 or push
 notifications. Load only the sections relevant to the task in front of you.
 `;
 
-const body = fs
+const refFiles = fs
   .readdirSync(refDir)
   .filter((f) => f.endsWith(".md"))
-  .sort()
+  .sort();
+const sectionCount = refFiles.length;
+const body = refFiles
   .map((f) => fs.readFileSync(path.join(refDir, f), "utf8").trim())
   .join("\n\n---\n\n");
 
@@ -83,7 +85,7 @@ const sizeKb = Math.round(markdown.length / 1024);
   </div>
 
   <p class="mt-3 text-xs text-ink-soft">
-    18 sections · ~{sizeKb} KB · always current with the plugin.
+    {sectionCount} sections · ~{sizeKb} KB · always current with the plugin.
   </p>
 </section>
 

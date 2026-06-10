@@ -47,6 +47,11 @@ slash command:
 Full detail (AGENTS.md hierarchy, tool permissions, phase conventions) lives in
 [`reference/00-workflow.md`](reference/00-workflow.md).
 
+**Getting set up:** before the workflow needs tools, `/spec-setup` installs only what
+the project requires (guided, confirm each step), `/spec-doctor` reports what's
+installed, and `/spec-troubleshoot` diagnoses common failures — all backed by
+[`reference/18-prerequisites.md`](reference/18-prerequisites.md).
+
 ## Reference index
 
 Load the file(s) that match the current task — not all of them.
@@ -71,6 +76,7 @@ Load the file(s) that match the current task — not all of them.
 | [`15-pre-commit`](reference/15-pre-commit.md) | Native git hooks (no Husky). Use to enforce checks before commit. |
 | [`16-deployment`](reference/16-deployment.md) | Vercel + Neon, security headers, env-var checklist. Use when shipping to production. |
 | [`17-scripts`](reference/17-scripts.md) | TypeScript CLI tools (tsx) for pipelines, seeding, prod sync. Use for operational tooling. |
+| [`18-prerequisites`](reference/18-prerequisites.md) | Required tools (Git, Node, pnpm, Docker, uv), how to detect them, and per-OS install methods. Used by `/spec-setup`, `/spec-doctor`, `/spec-troubleshoot`. |
 
 ## Putting it all together
 

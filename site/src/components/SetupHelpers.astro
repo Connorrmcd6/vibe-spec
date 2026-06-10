@@ -1,0 +1,46 @@
+---
+const helpers = [
+  {
+    cmd: "/spec-setup",
+    what: "Run this first. It checks what your project needs and helps you install only the missing tools — one step at a time, nothing happens without your OK.",
+  },
+  {
+    cmd: "/spec-doctor",
+    what: "A quick health check. It tells you what’s installed and what isn’t — and changes nothing.",
+  },
+  {
+    cmd: "/spec-troubleshoot",
+    what: "Something not working? Describe it and it walks you through the fix, from database hiccups to setup snags.",
+  },
+];
+---
+
+<section
+  id="getting-set-up"
+  class="border-t border-line bg-paper-raised"
+>
+  <div class="mx-auto max-w-3xl px-6 py-14 sm:py-20">
+    <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">
+      Getting set up
+    </h2>
+    <p class="mt-3 max-w-xl text-pretty leading-relaxed text-ink-soft">
+      Building real apps needs a few tools on your machine. These commands sort
+      that out for you — installing only what your project actually uses, and
+      helping when something goes sideways. They’re separate from the workflow
+      above; reach for them whenever you need.
+    </p>
+
+    <ul class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+      {
+        helpers.map((h) => (
+          <li class="rounded-xl border border-line bg-paper p-5">
+            <code class="font-mono text-sm font-medium text-ink">{h.cmd}</code>
+            <p class="mt-2 text-pretty text-sm leading-relaxed text-ink-soft">
+              {h.what}
+            </p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
