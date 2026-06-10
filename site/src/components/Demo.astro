@@ -1,0 +1,109 @@
+---
+// A short, honest glimpse of the workflow: you describe, it interviews you
+// back, and you move through each /spec-* step together — not a one-shot button.
+const turns = [
+  { who: "you", text: "I want a booking site for my yoga studio." },
+  {
+    who: "vibe",
+    cmd: "/spec-draft",
+    text: "Got it — a couple of questions first. Should clients pay when they book, or just reserve a spot?",
+  },
+  { who: "you", text: "Pay by card when they book." },
+];
+
+const stages = [
+  { label: "Draft", state: "done" },
+  { label: "Refine", state: "done" },
+  { label: "Phases", state: "done" },
+  { label: "Plan", state: "done" },
+  { label: "Build", state: "active" },
+];
+---
+
+<div class="rounded-2xl border border-line bg-paper-raised p-4 shadow-sm sm:p-5">
+  <!-- the conversation: you and Vibe-Spec, working it out together -->
+  <div class="space-y-3">
+    {
+      turns.map((t) =>
+        t.who === "you" ? (
+          <div class="flex items-start gap-2.5">
+            <span class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-ink text-[0.62rem] font-semibold text-paper">
+              You
+            </span>
+            <div class="rounded-2xl rounded-tl-sm border border-line bg-paper px-3.5 py-2 text-sm leading-relaxed text-ink">
+              {t.text}
+            </div>
+          </div>
+        ) : (
+          <div class="flex items-start gap-2.5">
+            <span class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent text-sm font-semibold text-accent-ink">
+              /
+            </span>
+            <div class="rounded-2xl rounded-tl-sm border border-accent-soft-line bg-accent-soft px-3.5 py-2 text-sm leading-relaxed text-ink">
+              <span class="mb-1 block font-mono text-[0.7rem] font-medium text-accent">
+                {t.cmd}
+              </span>
+              {t.text}
+            </div>
+          </div>
+        )
+      )
+    }
+    <div class="flex items-start gap-2.5">
+      <span
+        class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-ink text-[0.62rem] font-semibold text-paper"
+        >You</span
+      >
+      <div
+        class="rounded-2xl rounded-tl-sm border border-line bg-paper px-3.5 py-2 text-sm leading-relaxed text-ink-soft"
+      >
+        <span
+          class="cursor inline-block h-4 w-px translate-y-0.5 bg-accent align-middle"
+          aria-hidden="true"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- you move through the steps together, approving as you go -->
+  <div class="mt-5 border-t border-line pt-4">
+    <ol class="flex flex-wrap items-center gap-x-1.5 gap-y-2">
+      {
+        stages.map((s, i) => (
+          <>
+            <li class="flex items-center gap-1.5">
+              {s.state === "done" ? (
+                <span class="flex h-5 w-5 items-center justify-center rounded-full bg-accent text-[0.65rem] text-accent-ink">
+                  ✓
+                </span>
+              ) : (
+                <span class="relative flex h-5 w-5 items-center justify-center">
+                  <span class="pulse absolute inline-flex h-3 w-3 rounded-full bg-accent" />
+                  <span class="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+                </span>
+              )}
+              <span
+                class:list={[
+                  "text-xs",
+                  s.state === "active"
+                    ? "font-semibold text-ink"
+                    : "text-ink-soft",
+                ]}
+              >
+                {s.label}
+              </span>
+            </li>
+            {i < stages.length - 1 && (
+              <span class="text-line" aria-hidden="true">
+                ›
+              </span>
+            )}
+          </>
+        ))
+      }
+    </ol>
+    <p class="mt-3 text-xs leading-relaxed text-ink-soft">
+      You guide each step and approve every phase before it’s built — currently
+      <span class="font-medium text-ink">building phase 2 of 4</span>.
+    </p>
+  </div>
+</div>
