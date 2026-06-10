@@ -1,0 +1,26 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "vibe-spec",
+  "metadata": {
+    "description": "Spec-driven development for AI coding tools: a guided 5-step workflow and a production full-stack reference."
+  },
+  "owner": {
+    "name": "Connor McDonald",
+    "email": "connormcd98@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "vibe-spec",
+      "description": "Spec-driven workflow commands + a full-stack reference skill.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Connor McDonald",
+        "email": "connormcd98@gmail.com"
+      },
+      "source": "./",
+      "category": "workflow",
+      "homepage": "https://github.com/Connorrmcd6/vibe-spec",
+      "tags": ["spec-driven", "workflow", "fullstack", "nextjs", "prisma", "skills", "commands"]
+    }
+  ]
+}
