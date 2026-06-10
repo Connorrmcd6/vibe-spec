@@ -19,6 +19,18 @@ In Claude Code, run:
 
 That's it — the `/spec-*` commands and the `vibe-spec` skill are now available.
 
+### Get your machine ready
+
+The stack assumes a few tools (Git, Node + pnpm, and — depending on the project —
+Docker and Python/uv). Three helper commands handle setup and recovery so you only
+install what your project actually needs:
+
+| Command | What it does |
+| --- | --- |
+| `/spec-setup` | **Run me first.** Figures out which tools your project needs (from your spec, or by project type) and helps install only the gaps — proposing exact per-OS commands and running each only after you confirm. |
+| `/spec-doctor` | Read-only health check: reports which tools are installed, their versions, and the Docker daemon state. Installs nothing. |
+| `/spec-troubleshoot` | Diagnoses common failures (Docker daemon down, port conflicts, missing `DATABASE_URL`, Prisma client not generated, pnpm-vs-npm, broken git hooks) and walks you through the fix. |
+
 > Prefer the old way? The full reference still lives in the repo under
 > [`skills/vibe-spec/reference/`](skills/vibe-spec/reference/) — read or copy any
 > section directly.
@@ -66,6 +78,7 @@ you can also just ask a stack question and the skill pulls the right reference.
 | Pre-commit Hooks | Native git hooks, no Husky |
 | Deployment | Vercel, Neon, security headers |
 | Scripts & CLI Tools | tsx-based operational tooling |
+| Prerequisites & Setup | Required tools per project type, detection, and per-OS install methods |
 
 ## Quick start by project type
 
