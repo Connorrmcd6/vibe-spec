@@ -1,0 +1,44 @@
+---
+import InstallBlock from "@/components/InstallBlock.astro";
+import Demo from "@/components/Demo.astro";
+---
+
+<section class="mx-auto max-w-5xl px-6 pt-16 pb-14 sm:pt-24 sm:pb-20">
+  <!--
+    DOM order is copy → demo → install so mobile reads headline, then the
+    "show, don't tell" demo, then the CTA. On lg the grid places copy + install
+    in the left column and the demo spanning the right.
+  -->
+  <div
+    class="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-x-16 lg:gap-y-8 lg:items-start"
+  >
+    <div class="lg:col-start-1 lg:row-start-1">
+      <p class="text-sm font-semibold uppercase tracking-[0.18em] text-accent">
+        Vibe-coding, for everyone
+      </p>
+
+      <h1
+        class="mt-5 text-balance text-4xl font-semibold leading-[1.05] tracking-tight sm:text-5xl"
+      >
+        Build real apps by describing them.
+      </h1>
+
+      <p
+        class="mt-6 max-w-xl text-pretty text-lg leading-relaxed text-ink-soft"
+      >
+        Vibe-Spec is a guided workflow that turns your idea into a working app.
+        You describe what you want, then walk through it together — it plans,
+        asks questions, and builds one step at a time, with you in control. No
+        need to know how the code works.
+      </p>
+    </div>
+
+    <div class="lg:col-start-2 lg:row-span-2 lg:self-center">
+      <Demo />
+    </div>
+
+    <div class="max-w-md lg:col-start-1 lg:row-start-2">
+      <InstallBlock />
+    </div>
+  </div>
+</section>

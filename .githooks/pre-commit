@@ -1,0 +1,10 @@
+#!/bin/sh
+set -e
+
+# Native git hook (no Husky), per reference 15-pre-commit. The repo is mostly
+# the plugin (markdown), so only run the Astro type check when staged files
+# touch the site/ directory — keeps plugin-only commits instant.
+if git diff --cached --name-only | grep -q '^site/'; then
+  echo "Running astro check (site/)..."
+  cd site && pnpm check
+fi

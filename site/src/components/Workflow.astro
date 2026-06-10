@@ -1,0 +1,105 @@
+---
+const steps = [
+  {
+    title: "Describe it",
+    cmd: "/spec-draft",
+    what: "Tell it what you want to build. It interviews you and writes a plain-language spec — what the app does and how people use it.",
+  },
+  {
+    title: "Refine it",
+    cmd: "/spec-refine",
+    what: "It asks questions, fills the gaps, and chooses the right tools for the job, so the plan is solid before any code is written.",
+  },
+  {
+    title: "Break it down",
+    cmd: "/spec-phases",
+    what: "It splits the work into small, ordered phases — bite-sized pieces you can follow one at a time.",
+  },
+  {
+    title: "Plan each phase",
+    cmd: "/spec-plan",
+    what: "It writes a short plan for every phase up front, so nothing is a surprise and you always know what’s next.",
+  },
+  {
+    title: "Build it",
+    cmd: "/spec-implement",
+    what: "It builds one phase at a time and keeps the spec up to date as it goes, so the plan always matches the app.",
+  },
+];
+---
+
+<section id="how-it-works" class="mx-auto max-w-3xl px-6 py-14 sm:py-20">
+  <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">How it works</h2>
+  <p class="mt-3 max-w-xl text-pretty leading-relaxed text-ink-soft">
+    Five simple steps take you from an idea to a working app. You stay in plain
+    language the whole way — the commands do the technical work.
+  </p>
+
+  <ol class="mt-12">
+    {
+      steps.map((s, i) => (
+        <li class="relative grid grid-cols-[2.5rem_1fr] gap-x-5 pb-9 last:pb-0">
+          {i < steps.length - 1 && (
+            <span
+              aria-hidden="true"
+              class="absolute left-5 top-11 bottom-1 w-px -translate-x-1/2 bg-line"
+            />
+          )}
+          <span class="z-10 flex h-10 w-10 items-center justify-center rounded-full bg-accent text-base font-semibold text-accent-ink">
+            {i + 1}
+          </span>
+          <div class="pt-1">
+            <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+              <h3 class="text-lg font-semibold text-ink">{s.title}</h3>
+              <code class="font-mono text-sm text-ink-soft">{s.cmd}</code>
+            </div>
+            <p class="mt-2 max-w-lg text-pretty leading-relaxed text-ink-soft">
+              {s.what}
+            </p>
+          </div>
+        </li>
+      ))
+    }
+  </ol>
+
+  <p class="mt-10 max-w-xl text-pretty leading-relaxed text-ink-soft">
+    Each step runs in a fresh session, and the spec is always kept current — so
+    the AI never loses track of what you’re building.
+  </p>
+
+  <!-- bonus step — visually distinct (dashed/tinted) to signal it's optional -->
+  <div class="mt-12 grid grid-cols-[2.5rem_1fr] gap-x-5">
+    <span
+      class="flex h-10 w-10 items-center justify-center rounded-full border-2 border-dashed border-accent text-lg text-accent"
+      aria-hidden="true">★</span
+    >
+    <div
+      class="rounded-2xl border border-dashed border-accent-soft-line bg-accent-soft/60 p-5 sm:p-6"
+    >
+      <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+        <span
+          class="rounded-full bg-accent px-2 py-0.5 text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-accent-ink"
+          >Bonus</span
+        >
+        <h3 class="text-lg font-semibold text-ink">Make it beautiful</h3>
+      </div>
+      <p class="mt-2 max-w-lg text-pretty leading-relaxed text-ink-soft">
+        Vibe-Spec gets the foundation right — solid, working, production-grade.
+        When you want it to <em class="font-medium not-italic text-ink"
+          >look</em
+        > as good as it works, hand it to
+        <a
+          href="https://impeccable.style"
+          class="font-medium text-ink underline decoration-accent-soft-line underline-offset-4 transition-colors hover:decoration-accent"
+          target="_blank"
+          rel="noopener noreferrer">impeccable</a
+        > — a separate set of design skills (<code class="font-mono text-sm"
+          >/polish</code
+        >, <code class="font-mono text-sm">/bolder</code>, <code
+          class="font-mono text-sm">/delight</code
+        >) that turn a working app into a beautiful one. This very site was built
+        that way.
+      </p>
+    </div>
+  </div>
+</section>
