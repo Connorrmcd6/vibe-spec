@@ -76,16 +76,6 @@ you can also just ask a stack question and the skill pulls the right reference.
 | API backend | Scaffolding, Docker, Prisma, Auth, RBAC, Validation, Testing, CI, Deployment (+ NestJS for extremely performant APIs) |
 | Data-heavy app | All references |
 
-## Projects built with Vibe-Spec
-
-| Project | Description | Areas used |
-| --- | --- | --- |
-| [OffsideFPL.com](https://offsidefpl.com) | Fantasy Premier League social app with data pipelines, real-time dashboards, and game mechanics | All |
-| [CAPS](https://atb-caps.vercel.app/) | License management CRUD app with OTP auth, RBAC, and external API | Scaffolding, Docker, Prisma, Auth, RBAC, Validation, Testing, UI, CI/CD, Pre-commit Hooks, Deployment, Scripts |
-| [Appventure](https://appventure.vercel.app/) | Static marketing site | Scaffolding, UI, Deployment |
-
-Built something with Vibe-Spec? [Open a PR](../../pulls) adding your project.
-
 ## Website
 
 A landing page (built with Astro, à la [impeccable.style](https://impeccable.style))
