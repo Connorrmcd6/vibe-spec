@@ -1,0 +1,13 @@
+{
+  "name": "vibe-spec",
+  "description": "Spec-driven development workflow + a production-tested full-stack reference. 5 commands (/spec-draft, /spec-refine, /spec-phases, /spec-plan, /spec-implement) and a vibe-spec skill with 18 on-demand stack references (Next.js, Prisma, Auth, RBAC, dbt, CI/CD, and more).",
+  "version": "0.1.0",
+  "author": {
+    "name": "Connor McDonald",
+    "email": "connormcd98@gmail.com"
+  },
+  "homepage": "https://github.com/Connorrmcd6/vibe-spec",
+  "repository": "https://github.com/Connorrmcd6/vibe-spec",
+  "commands": "./commands",
+  "skills": "./skills"
+}
