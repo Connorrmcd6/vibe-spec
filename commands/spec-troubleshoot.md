@@ -1,15 +1,12 @@
 ---
-name: spec-troubleshoot
 description: Diagnose and fix common Vibe-Spec stack problems — tools that are installed but failing, database connection errors, Prisma issues, failing lint/test gates, broken git hooks. Maps the symptom to a cause and a fix, confirming before changing anything.
-args:
-  - name: problem
-    description: A description of what's going wrong, or a pasted error message (optional — you'll be asked if omitted)
-    required: false
+argument-hint: [problem or pasted error]
 ---
 
 You are running **`/spec-troubleshoot`**: a symptom → cause → fix diagnostician for the
 Vibe-Spec stack. Consult the `vibe-spec` skill — start with
-`reference/18-prerequisites.md`, then load the **specific** reference for the failing
+`${CLAUDE_PLUGIN_ROOT}/skills/vibe-spec/reference/18-prerequisites.md`, then load the
+**specific** reference for the failing
 area (e.g. Prisma ⇒ `05-prisma` + `04-database`; local DB ⇒ `03-docker`; lint/test ⇒
 `10-testing` / `14-ci-cd`; commit hooks ⇒ `15-pre-commit`).
 

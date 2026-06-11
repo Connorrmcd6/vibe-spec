@@ -1,15 +1,12 @@
 ---
-name: spec-implement
 description: Step 5 of the Vibe-Spec workflow. Promote a phase plan to detailed, implement it following the vibe-spec references, then update the docs so the spec reflects reality.
-args:
-  - name: phase
-    description: The phase number or name to implement (optional — defaults to the next phase that isn't Complete)
-    required: false
+argument-hint: [phase]
 ---
 
 You are running **Step 5 of the Vibe-Spec spec-driven workflow**: detailing and
 implementing one phase. This step is **iterative** — run it once per phase, ideally in
-a fresh session. See the `vibe-spec` skill (`reference/00-workflow.md`).
+a fresh session. See the `vibe-spec` skill
+(`${CLAUDE_PLUGIN_ROOT}/skills/vibe-spec/reference/00-workflow.md`).
 
 ## What to do
 

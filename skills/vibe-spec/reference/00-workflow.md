@@ -11,7 +11,6 @@ This section is placed first intentionally — it describes the methodology for 
 
 | File                          | Purpose                                                   |
 | ----------------------------- | --------------------------------------------------------- |
-| `Vibe-Spec.md`                | This file — stack reference and starter guide             |
 | `CLAUDE.md`                   | Entry point — AI tools read this first                    |
 | `AGENTS.md`                   | Root project conventions (stack, directory map, patterns) |
 | `prisma/AGENTS.md`            | Prisma-specific conventions                               |
@@ -38,7 +37,7 @@ Don’t worry about tooling choices or implementation details yet — just descr
 
 #### Step 2: Refine to V1 Spec
 
-Use planning mode on the best model you have access to. Add this Vibe-Spec file to context and ask the AI to:
+Use planning mode on the best model you have access to. With the `vibe-spec` skill available (or this reference in context), ask the AI to:
 
 - Improve your V0 spec
 - Ask clarifying questions about gaps
@@ -153,10 +152,14 @@ CLAUDE.md                      ← Entry point: "See @AGENTS.md for Project Conv
       "Bash(pnpm test)",
       "Bash(pnpm test:*)",
       "Bash(npx tsc --noEmit)",
-      "Bash(npx prisma generate)",
+      "Bash(pnpm prisma generate)",
       "Bash(npx shadcn@latest add chart --yes)",
-      "Bash(git:*)",
-      "Bash(npx prisma:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(pnpm prisma:*)",
       "Bash(npx vitest:*)",
       "Bash(gh run:*)",
       "Bash(gh pr:*)"
@@ -176,7 +179,7 @@ The root `AGENTS.md` should cover:
 - **Conventions** — non-obvious patterns that the AI should follow (e.g., “never hardcode colors”, “use proxy.ts not middleware.ts”)
 - **Domain-specific gotchas** — things unique to your project’s domain
 
-### Skills (`.agents/skills/<name>/SKILL.md`)
+### Skills (`.claude/skills/<name>/SKILL.md`)
 
 Agent-invocable automations with YAML frontmatter:
 
@@ -184,7 +187,7 @@ Agent-invocable automations with YAML frontmatter:
 ---
 name: sync-readme
 description: Ensures the readme is up to date with the repo file system
-model: haiku-4
+model: haiku
 ---
 1. Check file structure defined in @README.md
 2. Check actual file structure

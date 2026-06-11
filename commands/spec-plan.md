@@ -1,14 +1,11 @@
 ---
-name: spec-plan
 description: Step 4 of the Vibe-Spec workflow. Generate the high-level plan file for every phase in the V2 phase index, each with a scope + status header, so the user has a complete set of plan files to work from.
-args:
-  - name: phase
-    description: A single phase number or name to (re)generate (optional — by default ALL phases are generated)
-    required: false
+argument-hint: [phase]
 ---
 
 You are running **Step 4 of the Vibe-Spec spec-driven workflow**: generating the
-**phase plan files**. See the `vibe-spec` skill (`reference/00-workflow.md`) for the
+**phase plan files**. See the `vibe-spec` skill
+(`${CLAUDE_PLUGIN_ROOT}/skills/vibe-spec/reference/00-workflow.md`) for the
 phase-doc conventions.
 
 By default this produces **one plan file for every phase** in the index, so the user
