@@ -2,8 +2,9 @@
 
 A spec-driven development workflow **and** a production-tested full-stack reference —
 packaged as a Claude Code plugin. Instead of copy-pasting a markdown file, install it
-once and get five `/spec-*` commands plus an on-demand stack reference for Next.js,
-Prisma, PostgreSQL, and the rest of the stack.
+once and get eight `/spec-*` commands — a five-step workflow plus three setup
+helpers — and an on-demand stack reference for Next.js, Prisma, PostgreSQL, and the
+rest of the stack.
 
 Refined through real production projects. You only adopt what you need — every
 reference has skip/need conditions.
@@ -54,7 +55,7 @@ implementation is part of the step, not an afterthought.
 
 ## The reference (the `vibe-spec` skill)
 
-The skill carries 18 stack references that Claude loads **on demand** — only the file
+The skill carries 19 stack references that Claude loads **on demand** — only the file
 relevant to the task, keeping context lean. The commands consult them automatically;
 you can also just ask a stack question and the skill pulls the right reference.
 

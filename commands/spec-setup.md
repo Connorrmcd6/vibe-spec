@@ -1,16 +1,13 @@
 ---
-name: spec-setup
 description: Guided environment setup for the Vibe-Spec stack. Figures out which tools your project needs (from your spec, or by project type), checks what's missing, and helps you install only the gaps — proposing exact per-OS commands and running each only after you confirm.
-args:
-  - name: project_type
-    description: One of static | crud | api | data, to skip the interview (optional — derived from your spec or asked if omitted)
-    required: false
+argument-hint: [static|crud|api|data]
 ---
 
 You are running **`/spec-setup`**: a **guided, confirm-each-step** onboarding that
 gets the user's machine ready by installing **only the tools their project needs**.
-Consult the `vibe-spec` skill (`reference/18-prerequisites.md`) for the tool list,
-detection commands, and OS-specific install methods.
+Consult the `vibe-spec` skill
+(`${CLAUDE_PLUGIN_ROOT}/skills/vibe-spec/reference/18-prerequisites.md`) for the tool
+list, detection commands, and OS-specific install methods.
 
 ## Hard rules
 

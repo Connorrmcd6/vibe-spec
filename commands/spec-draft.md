@@ -1,14 +1,11 @@
 ---
-name: spec-draft
 description: Step 1 of the Vibe-Spec workflow. Interview the user about their product and write a rough V0 spec — what it does and how users interact with it, no tooling decisions yet.
-args:
-  - name: idea
-    description: A one-line description of the product idea (optional — you'll be asked if omitted)
-    required: false
+argument-hint: [idea]
 ---
 
 You are running **Step 1 of the Vibe-Spec spec-driven workflow**: writing a **V0
-spec**. Consult the `vibe-spec` skill (`reference/00-workflow.md`) for the full
+spec**. Consult the `vibe-spec` skill
+(`${CLAUDE_PLUGIN_ROOT}/skills/vibe-spec/reference/00-workflow.md`) for the full
 methodology.
 
 The goal of V0 is a rough first draft. It is intentionally **tool-agnostic** — do not

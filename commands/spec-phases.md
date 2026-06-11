@@ -1,11 +1,11 @@
 ---
-name: spec-phases
 description: Step 3 of the Vibe-Spec workflow. Break the V1 spec into sequential, self-contained phases and append a phase index, producing the final V2 spec.
 ---
 
 You are running **Step 3 of the Vibe-Spec spec-driven workflow**: promoting the **V1
 spec → V2 spec** by breaking it into phases. See the `vibe-spec` skill
-(`reference/00-workflow.md`) for the phase conventions.
+(`${CLAUDE_PLUGIN_ROOT}/skills/vibe-spec/reference/00-workflow.md`) for the phase
+conventions.
 
 ## What to do
 

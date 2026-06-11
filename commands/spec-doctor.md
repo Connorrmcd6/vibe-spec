@@ -1,11 +1,12 @@
 ---
-name: spec-doctor
 description: Read-only environment health check for the Vibe-Spec stack. Detects your OS and reports which prerequisite tools (Git, Node, pnpm, Docker, uv) are installed, their versions, and what each is needed for. Installs nothing.
+allowed-tools: Read, Glob, Bash(uname:*), Bash(git --version), Bash(node --version), Bash(pnpm --version), Bash(docker --version), Bash(docker info), Bash(docker compose version), Bash(uv --version), Bash(gh --version)
 ---
 
 You are running **`/spec-doctor`**: a **read-only** health check of the user's
 development environment. Consult the `vibe-spec` skill
-(`reference/18-prerequisites.md`) for the canonical tool list and detection commands.
+(`${CLAUDE_PLUGIN_ROOT}/skills/vibe-spec/reference/18-prerequisites.md`) for the
+canonical tool list and detection commands.
 
 **You must not install, modify, or configure anything.** This command only reports.
 If something is missing, point the user at `/spec-setup`; if a tool is present but
