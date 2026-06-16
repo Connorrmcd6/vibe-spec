@@ -30,7 +30,15 @@ npx tsc --noEmit
 
 echo "Running tests..."
 pnpm test
+
+echo "Auditing for leaked secrets..."
+"$CLAUDE_PLUGIN_ROOT/scripts/secret-audit.sh" --staged || exit 1
 ```
+
+The secret audit runs the fast, build-free static checks on staged files and blocks
+the commit if a secret is mis-prefixed, hardcoded, or about to be committed in a
+`.env`. See [`19-secrets`](19-secrets.md) for the full picture (and the CI gate that
+runs the definitive bundle scan).
 
 **package.json** `prepare` script:
 
