@@ -11,7 +11,7 @@
     {
       "name": "vibe-spec",
       "description": "Spec-driven workflow commands + a full-stack reference skill.",
-      "version": "0.2.1",
+      "version": "0.3.0",
       "author": {
         "name": "Connor McDonald",
         "email": "connormcd98@gmail.com"

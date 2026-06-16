@@ -25,6 +25,10 @@ spec → V1 spec**. The V1 spec becomes the single source of truth — it detail
    - UI → `reference/11-ui.md`; testing → `reference/10-testing.md`
    - CI/CD, hooks, deploy → `reference/14-ci-cd.md`, `15-pre-commit.md`, `16-deployment.md`
    - High-performance API → `reference/02-nestjs.md` (only if a measured need exists)
+   - Secrets / config → `reference/19-secrets.md`: for each capability needing a
+     secret, name the env var holding it and mark it **server-only** (never
+     `NEXT_PUBLIC_`). Considering this now makes the later `/spec-secrets` audit a
+     confirmation rather than a discovery.
 
    Use the skill's quick-reference table to avoid pulling in tools the project
    doesn't need. Prefer the simplest option that satisfies the requirement.

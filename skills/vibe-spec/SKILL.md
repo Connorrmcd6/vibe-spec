@@ -22,8 +22,8 @@ or push notifications. Adding tools you don't need is complexity for no benefit.
 | Project type | Recommended references |
 | --- | --- |
 | Static / marketing site | `00-workflow`, `01-scaffolding`, `11-ui`, `15-pre-commit` |
-| Simple CRUD app | `00`–`01`, `03`–`05`, `07-auth`, `08-rbac`, `10-testing`, `11-ui`, `14`–`16` |
-| API-only backend | `00`–`01`, `03`–`05`, `02-nestjs` (optional), `07`–`10`, `14`–`16` |
+| Simple CRUD app | `00`–`01`, `03`–`05`, `07-auth`, `08-rbac`, `10-testing`, `11-ui`, `14`–`16`, `19-secrets` |
+| API-only backend | `00`–`01`, `03`–`05`, `02-nestjs` (optional), `07`–`10`, `14`–`16`, `19-secrets` |
 | Data-heavy app (pipelines, transforms) | All references |
 
 ## The workflow (use the `/spec-*` commands)
@@ -77,6 +77,7 @@ Load the file(s) that match the current task — not all of them.
 | [`16-deployment`](reference/16-deployment.md) | Vercel + Neon, security headers, env-var checklist. Use when shipping to production. |
 | [`17-scripts`](reference/17-scripts.md) | TypeScript CLI tools (tsx) for pipelines, seeding, prod sync. Use for operational tooling. |
 | [`18-prerequisites`](reference/18-prerequisites.md) | Required tools (Git, Node, pnpm, Docker, uv), how to detect them, and per-OS install methods. Used by `/spec-setup`, `/spec-doctor`, `/spec-troubleshoot`. |
+| [`19-secrets`](reference/19-secrets.md) | Keep secrets out of the browser bundle and out of git. The trust boundary, the known-sensitive catalog, and the `/spec-secrets` audit. Use when the app has a `.env`. |
 
 ## Putting it all together
 
