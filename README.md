@@ -95,14 +95,15 @@ you can also just ask a stack question and the skill pulls the right reference.
 | Scripts & CLI Tools | tsx-based operational tooling |
 | Prerequisites & Setup | Required tools per project type, detection, and per-OS install methods |
 | Secret Hygiene | Keep secrets out of the bundle and out of git; the trust boundary behind `/spec-secrets` |
+| Documentation Governance | Anchor doc claims to code symbols (Surface); logic drift blocks the commit, so AGENTS.md / hubs can't silently rot |
 
 ## Quick start by project type
 
 | Project type | References to use |
 | --- | --- |
 | Static site | Scaffolding, UI, Deployment |
-| Simple CRUD app | Scaffolding, Docker, Prisma, Auth, RBAC, Testing, UI, CI, Deployment, Secrets |
-| API backend | Scaffolding, Docker, Prisma, Auth, RBAC, Validation, Testing, CI, Deployment, Secrets (+ NestJS for extremely performant APIs) |
+| Simple CRUD app | Scaffolding, Docker, Prisma, Auth, RBAC, Testing, UI, CI, Deployment, Secrets, Doc Governance |
+| API backend | Scaffolding, Docker, Prisma, Auth, RBAC, Validation, Testing, CI, Deployment, Secrets, Doc Governance (+ NestJS for extremely performant APIs) |
 | Data-heavy app | All references |
 
 ## Website
