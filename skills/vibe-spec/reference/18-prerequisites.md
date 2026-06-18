@@ -28,6 +28,11 @@ actually uses (see the "what do I need?" table in `SKILL.md`).
 The Docker **daemon must be running**, not just the binary installed — check with
 `docker info` (exit 0 = daemon up).
 
+**Surface** (`20-surface`, the doc-drift gate) is **not** a system prerequisite — it ships
+as the `@gradient-tools/surface` pnpm devDependency (prebuilt binary via
+`optionalDependencies`, no postinstall download), so it lands with `pnpm install` and needs
+no separate detection in `/spec-doctor` or `/spec-setup`.
+
 ### Install methods
 
 Pick **one** per tool. Prefer user-space installers (no `sudo`) where possible.

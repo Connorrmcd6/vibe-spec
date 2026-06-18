@@ -33,6 +33,8 @@ Next.js 16 App Router with TypeScript strict mode, pnpm package management, Tail
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
+    "docs:check": "surf check",
+    "docs:verify": "surf verify",
     "prepare": "git config core.hooksPath .githooks"
   },
   "dependencies": {
@@ -49,12 +51,16 @@ Next.js 16 App Router with TypeScript strict mode, pnpm package management, Tail
     "eslint-config-next": "16.2.1",
     "vitest": "^4.1.0",
     "tsx": "^4.21.0",
-    "vite-tsconfig-paths": "^6.1.1"
+    "vite-tsconfig-paths": "^6.1.1",
+    "@gradient-tools/surface": "^0.6.2"
   }
 }
 ```
 
 > **Note:** The `build` script includes `prisma generate && prisma migrate deploy` before `next build`. Remove these if you don’t use Prisma. The `prepare` script sets up git hooks — see [Section 16](15-pre-commit.md).
+The `docs:check` / `docs:verify` scripts drive the Surface doc-drift gate — see
+[`20-surface`](20-surface.md); drop them (and the `@gradient-tools/surface` devDependency) if
+the project doesn’t govern docs.
 
 **tsconfig.json** — Strict TypeScript with path aliases:
 

@@ -33,12 +33,21 @@ pnpm test
 
 echo "Auditing for leaked secrets..."
 "$CLAUDE_PLUGIN_ROOT/scripts/secret-audit.sh" --staged || exit 1
+
+echo "Checking documentation drift..."
+pnpm exec surf check
 ```
 
 The secret audit runs the fast, build-free static checks on staged files and blocks
 the commit if a secret is mis-prefixed, hardcoded, or about to be committed in a
 `.env`. See [`19-secrets`](19-secrets.md) for the full picture (and the CI gate that
 runs the definitive bundle scan).
+
+The `surf check` step is the documentation-drift gate: it exits non-zero (blocking the
+commit) when the *logic* of a symbol an anchored doc claim points at has changed, so a
+stale `AGENTS.md` / hub can't merge unnoticed. Re-read the claim and `surf verify` it if
+the prose still holds, or fix the prose first. See [`20-surface`](20-surface.md). Omit
+this line if the project doesn't use Surface.
 
 **package.json** `prepare` script:
 

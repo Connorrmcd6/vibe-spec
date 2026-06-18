@@ -28,6 +28,12 @@ a fresh session. See the `vibe-spec` skill
    where needed. Capture *decisions made*, not just TODOs. **A stale spec is worse
    than no spec — it actively misleads future sessions.** Set the phase **Status** to
    `Complete` when done.
+   - **Govern the docs (if the project uses Surface).** For any domain whose logic this
+     phase changed, add or update the relevant hub claim, then — once you've confirmed the
+     prose is true — run `surf verify` to re-seal it so the pre-commit `surf check` gate
+     stays green. New invariant worth governing? Author a fresh claim with
+     `surf new` / `surf suggest`. See `reference/20-surface.md`. This makes "keep the docs
+     honest" a mechanical gate, not just a good intention.
 
 End by summarizing what changed and telling the user to start a fresh session and run
 `/spec-implement` for the next phase. If new phases became necessary, add them with
