@@ -22,8 +22,8 @@ or push notifications. Adding tools you don't need is complexity for no benefit.
 | Project type | Recommended references |
 | --- | --- |
 | Static / marketing site | `00-workflow`, `01-scaffolding`, `11-ui`, `15-pre-commit` |
-| Simple CRUD app | `00`–`01`, `03`–`05`, `07-auth`, `08-rbac`, `10-testing`, `11-ui`, `14`–`16`, `19-secrets` |
-| API-only backend | `00`–`01`, `03`–`05`, `02-nestjs` (optional), `07`–`10`, `14`–`16`, `19-secrets` |
+| Simple CRUD app | `00`–`01`, `03`–`05`, `07-auth`, `08-rbac`, `10-testing`, `11-ui`, `14`–`16`, `19-secrets`, `20-surface` |
+| API-only backend | `00`–`01`, `03`–`05`, `02-nestjs` (optional), `07`–`10`, `14`–`16`, `19-secrets`, `20-surface` |
 | Data-heavy app (pipelines, transforms) | All references |
 
 ## The workflow (use the `/spec-*` commands)
@@ -78,13 +78,16 @@ Load the file(s) that match the current task — not all of them.
 | [`17-scripts`](reference/17-scripts.md) | TypeScript CLI tools (tsx) for pipelines, seeding, prod sync. Use for operational tooling. |
 | [`18-prerequisites`](reference/18-prerequisites.md) | Required tools (Git, Node, pnpm, Docker, uv), how to detect them, and per-OS install methods. Used by `/spec-setup`, `/spec-doctor`, `/spec-troubleshoot`. |
 | [`19-secrets`](reference/19-secrets.md) | Keep secrets out of the browser bundle and out of git. The trust boundary, the known-sensitive catalog, and the `/spec-secrets` audit. Use when the app has a `.env`. |
+| [`20-surface`](reference/20-surface.md) | Documentation governed like code — anchor doc claims to symbols; logic drift blocks the commit. Use on agent-heavy or fast-moving repos to stop AGENTS.md / hub prose silently going stale. |
 
 ## Putting it all together
 
 For a new project: start with the spec (`/spec-draft` → `/spec-refine` →
 `/spec-phases`), scaffold with [`01-scaffolding`](reference/01-scaffolding.md) using
 official CLI init commands, then add only the references the quick-reference table
-points to. Set up AGENTS.md and CI early. Break work into phases completable in 1–3
+points to. Set up AGENTS.md and CI early, and anchor your first hubs with
+[`20-surface`](reference/20-surface.md) so the docs agents read can't silently rot. Break
+work into phases completable in 1–3
 sessions, and update phase docs whenever implementation drifts from the plan.
 
 The key principle: **every tool here exists because a real project needed it**. Your

@@ -24,6 +24,8 @@ spec → V1 spec**. The V1 spec becomes the single source of truth — it detail
    - Uploads → `reference/12-s3.md`; push / PWA → `reference/13-push-notifications.md`
    - UI → `reference/11-ui.md`; testing → `reference/10-testing.md`
    - CI/CD, hooks, deploy → `reference/14-ci-cd.md`, `15-pre-commit.md`, `16-deployment.md`
+   - Documentation governance (keep AGENTS.md / hub docs from silently rotting as the
+     code moves) → `reference/20-surface.md`
    - High-performance API → `reference/02-nestjs.md` (only if a measured need exists)
    - Secrets / config → `reference/19-secrets.md`: for each capability needing a
      secret, name the env var holding it and mark it **server-only** (never

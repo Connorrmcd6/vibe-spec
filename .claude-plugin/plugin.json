@@ -1,7 +1,7 @@
 {
   "name": "vibe-spec",
-  "description": "Spec-driven development workflow + a production-tested full-stack reference. A 5-step /spec-* workflow (draft, refine, phases, plan, implement) plus /spec-setup, /spec-doctor, and /spec-troubleshoot for environment setup, /spec-secrets for redacted secret-leak auditing, and a vibe-spec skill with 20 on-demand stack references (Next.js, Prisma, Auth, RBAC, dbt, CI/CD, secrets, prerequisites, and more).",
-  "version": "0.3.0",
+  "description": "Spec-driven development workflow + a production-tested full-stack reference. A 5-step /spec-* workflow (draft, refine, phases, plan, implement) plus /spec-setup, /spec-doctor, and /spec-troubleshoot for environment setup, /spec-secrets for redacted secret-leak auditing, and a vibe-spec skill with 21 on-demand stack references (Next.js, Prisma, Auth, RBAC, dbt, CI/CD, secrets, doc governance, prerequisites, and more).",
+  "version": "0.4.0",
   "author": {
     "name": "Connor McDonald",
     "email": "connormcd98@gmail.com"

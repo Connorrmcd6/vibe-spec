@@ -40,7 +40,9 @@ ends with a complete set and can start a fresh session on any phase.
    sequence, not full implementation detail. For each stack area a phase touches, pull
    the relevant `vibe-spec` reference file (e.g. `05-prisma.md` for schema work,
    `07-auth.md` for auth) and capture the documented approach and key conventions so
-   each phase doc doubles as an architecture reference.
+   each phase doc doubles as an architecture reference. When a phase establishes a
+   documented invariant worth governing, note it should be anchored as a Surface hub
+   claim during implementation (`20-surface.md`).
 
 Keep every plan high-level — full detail comes when you implement. When done, list the
 plan files you created and tell the user they can now start a fresh session and run

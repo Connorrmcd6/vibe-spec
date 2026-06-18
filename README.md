@@ -69,7 +69,7 @@ definitive `.next/static` bundle scan. Same checks wire into the pre-commit hook
 
 ## The reference (the `vibe-spec` skill)
 
-The skill carries 20 stack references that Claude loads **on demand** — only the file
+The skill carries 21 stack references that Claude loads **on demand** — only the file
 relevant to the task, keeping context lean. The commands consult them automatically;
 you can also just ask a stack question and the skill pulls the right reference.
 
