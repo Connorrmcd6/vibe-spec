@@ -160,11 +160,35 @@ This approach uses email-based one-time passwords with custom JWT sessions via t
 - Controlled by `EMAIL_PROVIDER` env var
 - Mock auth mode (`NEXT_PUBLIC_ENABLE_MOCK_AUTH=true`) bypasses OTP entirely for development
 
+#### Rate Limiting & Abuse Prevention
+
+A 6-digit OTP is only 1,000,000 combinations. Without limits, an attacker can brute-force the verify endpoint within the expiry window, and anyone can hammer `request-otp` to bomb a victim's inbox or run up your email bill. Both endpoints need limits — no external infrastructure required, the database you already have is enough.
+
+**Verification attempt limit** (`src/lib/auth/otp.ts`):
+
+- Add an `attempts` column to the OTP record (default 0)
+- Increment on every failed verification; delete the record after 5 failures so the user must request a fresh code
+- Compare hashes with `crypto.timingSafeEqual` (not `===`) to avoid leaking match progress through response timing
+
+**Request cooldown** (`src/app/api/auth/request-otp/`):
+
+- Per email: refuse to send a new OTP if one was issued in the last 60 seconds — check the existing record's `createdAt` before generating
+- Per IP: cap requests per window (e.g. 10 per 15 minutes). A `RateLimit` table keyed on `ip` + window start is fine at this scale; on Vercel, `@upstash/ratelimit` with Redis is the managed alternative
+- Return the same generic "code sent" response whether or not the email belongs to an account — a different response for unknown emails lets attackers enumerate your user base
+
+**Rate limiting gotchas:**
+
+- **Count failed attempts on the OTP record, not in memory.** Serverless functions don't share memory between invocations — an in-memory counter resets on every cold start and enforces nothing.
+- **Trust the right IP header.** On Vercel, read `x-forwarded-for`'s first entry (or `x-real-ip`). Behind other proxies, confirm which header the proxy sets — reading a client-controlled header lets attackers rotate identities freely.
+- **Cooldowns beat CAPTCHAs here.** A 60-second resend cooldown plus a per-IP cap stops email bombing without hurting UX; reach for a CAPTCHA only if you see distributed abuse in practice.
+
 #### Environment Variables (OTP)
 
 ```env
 SESSION_SECRET="generate-a-random-64-char-hex-string"
 OTP_EXPIRY_MINUTES=10
+OTP_MAX_ATTEMPTS=5
+OTP_RESEND_COOLDOWN_SECONDS=60
 EMAIL_PROVIDER=console   # console | ses | resend
 NEXT_PUBLIC_ENABLE_MOCK_AUTH=true   # Skip OTP in dev
 ```
@@ -172,6 +196,7 @@ NEXT_PUBLIC_ENABLE_MOCK_AUTH=true   # Skip OTP in dev
 #### OTP Gotchas
 
 - **Never store raw OTP codes** — always hash before storing.
+- **Never ship OTP endpoints without the rate limits above** — an unlimited verify endpoint makes the 6-digit code brute-forceable within its expiry window.
 - **Mock auth mode** (`NEXT_PUBLIC_ENABLE_MOCK_AUTH=true`) is essential for local development and testing. It bypasses the OTP flow entirely. Never enable in production.
 - **Console email provider** logs OTP codes to the server terminal — check your `next dev` output to find the code during local development.
 - **Two-layer auth:** The proxy is an optimistic first check (fast, cookie-only). Server-side `getSessionFromRequest()` is the definitive check (validates the JWT).
